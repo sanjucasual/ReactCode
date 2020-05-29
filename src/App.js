@@ -9,7 +9,9 @@ class App extends Component {
       <h1>
         Hello world my first component
       </h1>
-<Person></Person>
+<Person name='Sanjeev' age="30"></Person>
+<Person name='Aarthi' age="25">My hobbies are games</Person>
+<Person name='Rajeev' age="29"></Person>
     </div>
     );
   }
