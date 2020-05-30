@@ -23,10 +23,22 @@ const app = (prop) => {
         { name: name, age: 28 },
         { name: "Aarthi sanjeev sharma", age: 21 },
         { name: "Rajeev", age: 25 },
-      ],
+      ]
     });
+    console.log("toggle input calledd");
   };
 
+const toWayDataBinding=(event)=>{
+personStateset(
+    {
+    person: [
+    { name: "sanjeev", age: 28 },
+    { name: event.target.value, age: 21 },
+    { name: "Rajeev", age: 25 },
+  ]
+});
+console.log("gellllllllllll");
+}  
   return (
     <div className="App">
       {/* with bind method we can bind the parent method to child*/}
@@ -40,6 +52,8 @@ const app = (prop) => {
       <Person click = {toggleInput.bind(this,"Bimla sharma")}
         name={personState.person[1].name}
         age={personState.person[1].age}
+        //for two way data binding we are writing this code a new custom property onInputTyper is addeed and it is being use in person.js
+        onInputTyper={toWayDataBinding}
       ></Person>
       <Person
         name={personState.person[2].name}
