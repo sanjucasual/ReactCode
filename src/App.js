@@ -16,11 +16,11 @@ const app = (prop) => {
     otherState: "this wont be changed",
   });
 
-  const toggleInput = () => {
+  const toggleInput = (name) => {
     // console.log("i have been clicked");
     personStateset({
       person: [
-        { name: "sanjeev", age: 28 },
+        { name: name, age: 28 },
         { name: "Aarthi sanjeev sharma", age: 21 },
         { name: "Rajeev", age: 25 },
       ],
@@ -29,14 +29,15 @@ const app = (prop) => {
 
   return (
     <div className="App">
-      {/* //dont add paranthesis to function name */}
-      <button onClick={toggleInput}>Change</button>
+      {/* with bind method we can bind the parent method to child*/}
+      <button onClick={toggleInput.bind(this,"orignal name")}>Change</button>
       <h1>Hello world my first component</h1>
       <Person
         name={personState.person[0].name}
         age={personState.person[0].age}
       ></Person>
-      <Person
+       {/* we are passing a new property click to child element so when wee click on child it should call parent function */}
+      <Person click = {toggleInput.bind(this,"Bimla sharma")}
         name={personState.person[1].name}
         age={personState.person[1].age}
       ></Person>
