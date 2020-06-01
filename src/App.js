@@ -1,66 +1,89 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
+import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
 import person from "./Person/Person";
-//ffirst thing create a return fcunstion like person ,cause we are using reacthooks
-//usestate is inbuilt function given by react when we import usestate from react
 
-const app = (prop) => {
-  const [personState, personStateset] = useState({
-    person: [
-      { name: "sanjee", age: 28 },
-      { name: "Aarthi", age: 21 },
-      { name: "Rajeev", age: 25 },
+class App extends Component {
+  state = {
+    persons: [
+      { name: "Max", age: 28 },
+      { name: "Manu", age: 29 },
+      { name: "Stephanie", age: 26 },
     ],
-    otherState: "this wont be changed",
-  });
-
-  const toggleInput = (name) => {
-    // console.log("i have been clicked");
-    personStateset({
-      person: [
-        { name: name, age: 28 },
-        { name: "Aarthi sanjeev sharma", age: 21 },
-        { name: "Rajeev", age: 25 },
-      ]
-    });
-    console.log("toggle input calledd");
+    otherState: "some other value",
+    showPersons: false,
   };
 
-const toWayDataBinding=(event)=>{
-personStateset(
-    {
-    person: [
-    { name: "sanjeev", age: 28 },
-    { name: event.target.value, age: 21 },
-    { name: "Rajeev", age: 25 },
-  ]
-});
-console.log("gellllllllllll");
-}  
-  return (
-    <div className="App">
-      {/* with bind method we can bind the parent method to child*/}
-      <button onClick={toggleInput.bind(this,"orignal name")}>Change</button>
-      <h1>Hello world my first component</h1>
-      <Person
-        name={personState.person[0].name}
-        age={personState.person[0].age}
-      ></Person>
-       {/* we are passing a new property click to child element so when wee click on child it should call parent function */}
-      <Person click = {toggleInput.bind(this,"Bimla sharma")}
-        name={personState.person[1].name}
-        age={personState.person[1].age}
-        //for two way data binding we are writing this code a new custom property onInputTyper is addeed and it is being use in person.js
-        onInputTyper={toWayDataBinding}
-      ></Person>
-      <Person
-        name={personState.person[2].name}
-        age={personState.person[2].age}
-      ></Person>
-      <p>{personState.otherState}</p>
-    </div>
-  );
-};
-export default app;
+  switchNameHandler = (newName) => {
+    // console.log('Was clicked!');
+    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
+    this.setState({
+      persons: [
+        { name: newName, age: 28 },
+        { name: "Manu", age: 29 },
+        { name: "Stephanie", age: 27 },
+      ],
+    });
+  };
+
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: "Max", age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: "Stephanie", age: 26 },
+      ],
+    });
+  };
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
+  };
+
+  deletePerson =(index)=>{
+const personsUpdate=this.state.persons
+personsUpdate.splice(index,1);
+this.setState({persons:personsUpdate})
+  };
+  render() {
+    const style = {
+      backgroundColor: "white",
+      font: "inherit",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer",
+    };
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person,index) => {
+            return (
+              <Person click={()=>this.deletePerson(index)}
+                name={person.name}
+                age={person.age}>
+              </Person>
+            );
+          })}
+        </div>
+      );
+    }
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button style={style} onClick={this.togglePersonsHandler}>
+          Toggle Persons
+        </button>
+        {persons}
+      </div>
+    );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
+  }
+}
+
+export default App;
